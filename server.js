@@ -5,7 +5,9 @@ const {Server} = require("socket.io");
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server,{
+  connectionStateRecovery: {}
+})
 const port = 8000;
 
 app.get('/', (req, res) => {
@@ -14,6 +16,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+  
   socket.on("chat message",(msg)=>{
     io.emit("chat message", msg);
   })
